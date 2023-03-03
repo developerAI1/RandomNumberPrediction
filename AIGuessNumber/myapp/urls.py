@@ -1,7 +1,12 @@
 from django.urls import path,include
 from . import views
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
-      path('random/',views.prepare_data,name='save_random_arrays'),
-      path('add/',views.add_new_sequence,name='add_new_sequence')
+      path("" , views.home),
+      # path('save/',views.SaveDAtabase,name='save_random_arrays'),
+      path('model/',views.prepare_data),
+      path('generate/',views.AIGuess),
+      path('history/' ,views.array_history),
+      path('input/' ,views.add_new_sequence),
 ]
+urlpatterns += staticfiles_urlpatterns()
