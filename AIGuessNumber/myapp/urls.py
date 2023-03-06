@@ -7,6 +7,7 @@ urlpatterns = [
       path('model/',views.prepare_data),
       path('generate/',views.AIGuess),
       path('history/' ,views.array_history),
+      path('reset/' ,views.Reset_history),
       path('input/' ,views.add_new_sequence),
-]
+      ]
 urlpatterns += staticfiles_urlpatterns()

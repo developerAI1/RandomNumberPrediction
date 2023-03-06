@@ -15,7 +15,7 @@ import random
 from django.views.decorators.csrf import csrf_exempt
 from keras.models import model_from_json
 from django.db.models import Q
-
+from django.contrib import messages
 # Create your views here.
 
 # with open('/home/mandeep/Downloads/Data based Sequences.txt', 'r') as file:
@@ -24,17 +24,17 @@ from django.db.models import Q
 # arrays = []
 # i=0
 # for i,j in enumerate(lines):
-#           
+  #    arrays.append(lines[i].split(' ' ))      
 #    i= i+1
 
 # numpy_arrays=np.array(arrays)
 
 # def SaveDAtabase(request):
-#     for arr in numpy_arrays:
-#         MyArray.objects.create(data=arr)   
+#     for arr in numpy_arrays: create 
+#         MyArray.objects.(data=arr)   
 #     return HttpResponse(request,'Random arrays saved!')
 
-count_sequence = 5
+count_sequence =240
 
 def home(req):
     return render(req , "index.html")
@@ -44,7 +44,6 @@ def AIGuess(request):
     file = open('/home/mandeep/Desktop/GitAddAI/AIGuessNumber/saved_model/AIGuessModel.json', 'r')
     loaded  = file.read()
     file.close()
-    
     loaded_model = model_from_json(loaded)
     loaded_model.load_weights("/home/mandeep/Desktop/GitAddAI/AIGuessNumber/saved_model/modelweights.h5")
     loaded_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -69,9 +68,8 @@ def prepare_data(request,data):
         for key, value in list_values.items():
             if key == 'data':
                 arrays.append(value)
-    arrays.pop()
     
-    for arr in arrays:
+    for arr in arrays:  
         integer_array = [int(x) for x in re.findall(r'\d+', arr)]
         input_data = np.zeros((len(arrays), num_inputs), dtype=int)
         input_data= integer_array
@@ -124,6 +122,11 @@ def prepare_data(request,data):
 
     model.compile(optimizer='adam',loss = 'mse',metrics=['accuracy'])
     model.fit(train_X, train_y, epochs=400, batch_size=100, verbose=1)
+    model_json = model.to_json()
+    with open("/home/mandeep/Desktop/GitAddAI/AIGuessNumber/saved_model/new.json", "w") as json_file:
+        json_file.write(model_json)
+
+    model.save_weights("/home/mandeep/Desktop/GitAddAI/AIGuessNumber/saved_model/new_weights.h5")   
  
 @csrf_exempt
 def add_new_sequence(request):
@@ -154,3 +157,16 @@ def array_history(request):
     recent_sequences = MyArray.objects.filter(Q(status=1) | Q(status=2))
     print(recent_sequences)
     return render(request, 'history.html' , {'recent_sequences':recent_sequences})  
+
+@csrf_exempt
+def Reset_history(request):
+    recent_sequences = MyArray.objects.filter(Q(status=1) | Q(status=2))
+    val = request.POST.get('input')
+    if request.method=='POST':
+        val = request.POST.get('input')
+        print('------------------->',val)
+        MyArray.objects.filter(id=val).delete()
+        messages.success(request, "Selected sequences have been deleted.")
+        
+    return render(request, 'reset.html' , {'recent_sequences':recent_sequences})  
+
