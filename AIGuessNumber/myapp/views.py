@@ -163,10 +163,15 @@ def Reset_history(request):
     recent_sequences = MyArray.objects.filter(Q(status=1) | Q(status=2))
     val = request.POST.get('input')
     if request.method=='POST':
-        val = request.POST.get('input')
-        print('------------------->',val)
-        MyArray.objects.filter(id=val).delete()
-        messages.success(request, "Selected sequences have been deleted.")
+        val = request.POST.getlist('input')
+        if val:
+            val=list(map(int,val))
+            for i in val:
+                MyArray.objects.filter(id=i).delete()
+                messages.success(request, "Selected sequences have been deleted.")
+            return  redirect('/')
+        else:
+            messages.warning(request, "No sequences were selected.")
         
     return render(request, 'reset.html' , {'recent_sequences':recent_sequences})  
 
