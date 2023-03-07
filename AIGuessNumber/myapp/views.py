@@ -3,6 +3,7 @@ from django.http import HttpResponse,JsonResponse
 import numpy as np
 from myapp.models import MyArray
 import re
+import os
 import numpy as np
 from keras.models import Sequential
 from keras.layers import LSTM, Dense,Dropout,Bidirectional
@@ -16,7 +17,6 @@ from django.views.decorators.csrf import csrf_exempt
 from keras.models import model_from_json
 from django.db.models import Q
 from django.contrib import messages
-# Create your views here.
 
 # with open('/home/mandeep/Downloads/Data based Sequences.txt', 'r') as file:
 #     contents = file.read()
@@ -122,12 +122,14 @@ def prepare_data(request,data):
 
     model.compile(optimizer='adam',loss = 'mse',metrics=['accuracy'])
     model.fit(train_X, train_y, epochs=400, batch_size=100, verbose=1)
+    
     model_json = model.to_json()
-    with open("/home/mandeep/Desktop/GitAddAI/AIGuessNumber/saved_model/new.json", "w") as json_file:
+    with open("/home/mandeep/Desktop/GitAddAI/AIGuessNumber/saved_model/AIGuessModel.json", "w") as json_file:
         json_file.write(model_json)
 
-    model.save_weights("/home/mandeep/Desktop/GitAddAI/AIGuessNumber/saved_model/new_weights.h5")   
- 
+    model.save_weights("/home/mandeep/Desktop/GitAddAI/AIGuessNumber/saved_model/modelweights.h5")   
+
+    
 @csrf_exempt
 def add_new_sequence(request):
     global count_sequence
@@ -135,20 +137,20 @@ def add_new_sequence(request):
         NewAddedArray= request.POST.get('array')
         integer_array = [int(x) for x in re.findall(r'\d+', NewAddedArray)]  
         filtered_lst = [item for item in integer_array if item <= 25]
-        if len(filtered_lst) ==10:
-            NEW = [str(x) for x in filtered_lst] 
+        New=[str(i) for i in filtered_lst if filtered_lst.count(i)==1]
+        if len(New)==10:
             latest_id = MyArray.objects.latest('id').id if MyArray.objects.exists() else 0
-            arr_obj = MyArray(id=latest_id+1, data=NEW,status=1)
+            arr_obj = MyArray(id=latest_id+1, data=New,status=1)
             arr_obj.save()
             num_status_1 = MyArray.objects.filter(status=1).count()
             if num_status_1 == count_sequence:
                 MyArray.objects.filter(status=1).update(status=2)
-                
                 data = MyArray.objects.all().values()
                 prepare_data(request , data)
             else:
                 return redirect("/")
         else:
+            # print("!!!!!!!!!!!!!!!!you have entered two times value")
             return redirect("/")
     else:
         return redirect("/")
@@ -174,4 +176,3 @@ def Reset_history(request):
             messages.warning(request, "No sequences were selected.")
         
     return render(request, 'reset.html' , {'recent_sequences':recent_sequences})  
-
