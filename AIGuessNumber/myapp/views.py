@@ -3,7 +3,7 @@ from django.http import HttpResponse,JsonResponse
 import numpy as np
 from myapp.models import MyArray
 import re
-import os
+import os       
 import numpy as np
 from keras.models import Sequential
 from keras.layers import LSTM, Dense,Dropout,Bidirectional
@@ -49,9 +49,10 @@ def AIGuess(request):
     loaded_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     X_test = np.load('/home/mandeep/Desktop/GitAddAI/AIGuessNumber/saved_model/test_X.npy')
     result=loaded_model.predict(X_test).astype(int)
-    result=(set(result.flatten())) 
-    random_values = random.sample(result, 3)
-    print('AI_guess_three-number',random_values)
+    result_set=(set(result.flatten())) 
+    result_list = [num for num in result_set if num != 0 and num !=26]
+    random_values = random.sample(result_list, k=min(3, len(result_list)))
+    print(random_values)
     return render(request , "genrate.html" , {"random_values":random_values})
    
   
@@ -132,7 +133,7 @@ def prepare_data(request,data):
     
 @csrf_exempt
 def add_new_sequence(request):
-    global count_sequence
+    global count_sequence   
     if request.method=='POST':
         NewAddedArray= request.POST.get('array')
         integer_array = [int(x) for x in re.findall(r'\d+', NewAddedArray)]  
