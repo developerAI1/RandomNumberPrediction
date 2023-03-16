@@ -23,11 +23,20 @@ with open(path, 'r') as file:
     contents = file.read()
 lines = contents.split('\n')
 arrays = []
+for line in lines:
+    array = np.array(line.split(' '))
+    arrays.append(array)
+del arrays[-1]
+list_of_arrays = np.array(arrays ,dtype=int)
+
+print(list_of_arrays.shape)
+
+arrays = []
 i=0
 for i,j in enumerate(lines):
     arrays.append(lines[i].split(' ' ))   
     i= i+1
-    numpy_arrays=np.array(arrays)
+numpy_arrays=np.array(arrays)
 def SaveDAtabase(request):
     for arr in numpy_arrays: 
         MyArray.objects.create(data=arr)   
