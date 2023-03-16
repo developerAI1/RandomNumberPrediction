@@ -17,8 +17,9 @@ from django.views.decorators.csrf import csrf_exempt
 from keras.models import model_from_json
 from django.db.models import Q
 from django.contrib import messages
-
-with open('/home/mandeep/Desktop/GitAddAI/AIGuessNumber/database/Data based Sequences.txt', 'r') as file:
+import os
+path = os.path.abspath("database/Data_based_Sequences.txt")
+with open(path, 'r') as file:
     contents = file.read()
 lines = contents.split('\n')
 arrays = []
