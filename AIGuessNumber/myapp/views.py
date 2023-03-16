@@ -42,13 +42,13 @@ def home(req):
 
 
 def AIGuess(request):
-    file = open('/home/mandeep/Desktop/GitAddAI/AIGuessNumber/saved_model/AIGuessModel.json', 'r')
+    file = open('saved_model/AIGuessModel.json', 'r')
     loaded  = file.read()
     file.close()
     loaded_model = model_from_json(loaded)
-    loaded_model.load_weights("/home/mandeep/Desktop/GitAddAI/AIGuessNumber/saved_model/modelweights.h5")
+    loaded_model.load_weights("saved_model/modelweights.h5")
     loaded_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-    X_test = np.load('/home/mandeep/Desktop/GitAddAI/AIGuessNumber/saved_model/test_X.npy')
+    X_test = np.load('saved_model/test_X.npy')
     result=loaded_model.predict(X_test).astype(int)
     result_set=(set(result.flatten())) 
     result_list = [num for num in result_set if num != 0 and num !=26]
@@ -126,10 +126,10 @@ def prepare_data(request,data):
     model.fit(train_X, train_y, epochs=400, batch_size=100, verbose=1)
     
     model_json = model.to_json()
-    with open("/home/mandeep/Desktop/GitAddAI/AIGuessNumber/saved_model/AIGuessModel.json", "w") as json_file:
+    with open("saved_model/AIGuessModel.json", "w") as json_file:
         json_file.write(model_json)
 
-    model.save_weights("/home/mandeep/Desktop/GitAddAI/AIGuessNumber/saved_model/modelweights.h5")   
+    model.save_weights("saved_model/modelweights.h5")   
 
     
 @csrf_exempt
