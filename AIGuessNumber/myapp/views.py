@@ -1,41 +1,33 @@
-from django.shortcuts import render , redirect
-from django.http import HttpResponse,JsonResponse
+# from django.shortcuts import render , redirect
+# from django.http import HttpResponse,JsonResponse
+# import numpy as np
+# from myapp.models import MyArray
+# import re
+# import os       
 import numpy as np
-from myapp.models import MyArray
-import re
-import os       
-import numpy as np
-from keras.models import Sequential
-from keras.layers import LSTM, Dense,Dropout,Bidirectional
-from random import randint
-from sklearn.metrics import mean_squared_error, mean_absolute_error
-from sklearn.preprocessing import StandardScaler
-import tensorflow as tf
-from keras.models import model_from_json
-import random
-from django.views.decorators.csrf import csrf_exempt
-from keras.models import model_from_json
-from django.db.models import Q
-from django.contrib import messages
+# from keras.models import Sequential
+# from keras.layers import LSTM, Dense,Dropout,Bidirectional
+# from random import randint
+# from sklearn.metrics import mean_squared_error, mean_absolute_error
+# from sklearn.preprocessing import StandardScaler
+# import tensorflow as tf
+# from keras.models import model_from_json
+# import random
+# from django.views.decorators.csrf import csrf_exempt
+# from keras.models import model_from_json
+# from django.db.models import Q
+# from django.contrib import messages
 import os
 path = os.path.abspath("database/Data_based_Sequences.txt")
 with open(path, 'r') as file:
     contents = file.read()
 lines = contents.split('\n')
 arrays = []
-for line in lines:
-    array = np.array(line.split(' '))
-    arrays.append(array)
-del arrays[-1]
-list_of_arrays = np.array(arrays ,dtype=int)
-
-print(list_of_arrays.shape)
-
-arrays = []
 i=0
 for i,j in enumerate(lines):
     arrays.append(lines[i].split(' ' ))   
     i= i+1
+del arrays[-1]
 numpy_arrays=np.array(arrays)
 def SaveDAtabase(request):
     for arr in numpy_arrays: 
