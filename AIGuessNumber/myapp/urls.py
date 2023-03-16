@@ -2,12 +2,13 @@ from django.urls import path,include
 from . import views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
-      # path("" , views.home),
-      path('save/',views.SaveDAtabase,name='save_random_arrays'),
-      # path('model/',views.prepare_data),
-      # path('generate/',views.AIGuess),
-      # path('history/' ,views.array_history),
-      # path('reset/' ,views.Reset_history),
-      # path('input/' ,views.add_new_sequence),
+      # path('save/',views.SaveDAtabase,name='save_random_arrays'),
+      path("" , views.home),
+      path('generate/',views.AIGuess),
+      path('model/',views.prepare_data),
+      path('input/' ,views.add_new_sequence),
+      path('history/' ,views.array_history),
+      path('reset/' ,views.Reset_history),
+     
       ]
 urlpatterns += staticfiles_urlpatterns()
