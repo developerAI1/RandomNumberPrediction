@@ -77,6 +77,7 @@ WSGI_APPLICATION = 'AIGuessNumber.wsgi.application'
 DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.mysql', 
+    # 'NAME': 'Array',
     'NAME': 'Random_Array',
     'USER': 'root',
     'PASSWORD': '',

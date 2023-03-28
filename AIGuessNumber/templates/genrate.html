@@ -5,17 +5,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href=" {% static '/css/index.css' %}  " type="text/css">
+    <link rel="stylesheet" href="{% static '/css/index.css' %}" type="text/css">
 
     <title>Generated</title>
 </head>
-<body style="  background: #0c5047;">
+<body style="background: #0c5047;">
     <section class="Generated">
-        <h1 style="text-align: center;color: #fff;margin-top: 10pc;font-family: sans-serif; width: 100%;
-        float: left;">AI Guessd 3 Digits</h1>
-   <p style="width: 100%;text-align: center;float: left;margin-top: 65px;font-size: 35px;color: #fff;
-   word-spacing: 32px;" > {{ random_values }}</p>
-       
+        <h1 style="text-align: center;color: #fff;margin-top: 8pc;font-family: sans-serif; width: 100%;
+        float: left;">AI Generation Integer</h1>
+        {% for values in random_values %}
+            <li style="width: 100%;text-align: center;float: left;margin-top: 35px;font-size: 30px;color: #fff; word-spacing: 32px;">
+                {{ forloop.counter }}. {{ values }}
+            </li>
+        {% endfor %}
     </section>
 </body>
 </html>

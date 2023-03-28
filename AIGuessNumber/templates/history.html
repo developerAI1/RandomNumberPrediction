@@ -10,23 +10,17 @@
 </head>
 <body >
     <section class="history df" style="  background: #0c5047;">
-        <h1 style="    color: #fff;
-        font-family: sans-serif;">History</h1>
+        <h1 style="color: #fff;font-family: sans-serif;">History</h1>
         <form action="" class="history-list">
     {% for i in recent_sequences %}
         <div class="input-field">
             <input type="checkbox" name="" id="">
-            <label for="" style="    color: #fff;
-            font-family: sans-serif;">Sequence {{ i.id }}   :-----  </label>
+            <label for="" style="color: #fff;
+            font-family: sans-serif;"> Sequence {{ i.id }}   :-----  </label>
             <p>{{ i.data }}</p>
         </div>
     {% endfor %}     
 </form>
-
-
-    
     </section>
-
-
 </body>
 </html>

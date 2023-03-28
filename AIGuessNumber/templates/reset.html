@@ -20,7 +20,28 @@
             <p>{{ i.data }}</p>
         </div>
         {% endfor %}   
-        <button type="submit" onclick=getID()>Click To Delete</button>
+        <div class="button">
+        <button type="submit" onclick=getID() style="outline: navajowhite;
+        border: none;
+        width: 40%;
+        text-align: center;
+        padding: 6px 5px;
+        background: #000;
+        color: #fff;
+        font-size: 19px;
+        font-weight: bold;
+        float: left;">Click To Delete</button>
+    
+        <button type="submit" style="width: 40%;
+            border: none;
+        outline: navajowhite;
+        background-color: #000;
+        color: #fff;
+        padding: 6px 5px;
+        font-size: 19px;
+        font-weight: bold;
+        float: right;" ><a href="/" style="text-decoration: none; color: #fff;">Back</a></button>
+        </div>
         <input name="deletedID" id= "result" hidden>    
         <h1 name="deletedID" id= "return" ></h1>    
         </form>
@@ -28,18 +49,13 @@
 
     <script>
         var lg1
-        console.log("Check")
         function getID() {
-            console.log("Truee");
             var input = document.getElementById('input-check');
             if (input.checked) {
-                console.log("True");
                 lg1 = input.value;
-                console.log("lgl", lg1)
                 document.getElementById("result").value = lg1;
 
             } else {
-                console.log("FALSE")    
                 document.getElementById("result").innerHTML= "SELECT ONE ";
             }
         }
