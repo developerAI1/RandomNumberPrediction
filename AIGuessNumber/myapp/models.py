@@ -5,7 +5,7 @@ from django.db import models
 class MyArray(models.Model):
     data=models.TextField(null=True)
     status=models.IntegerField(default=False)
-    
+        
 
 
 

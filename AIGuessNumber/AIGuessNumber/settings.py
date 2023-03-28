@@ -132,8 +132,8 @@ STATICFILES_DIRS = [
 ]
 
 CORS_ALLOWED_ORIGINS=[
-'https://44.204.17.113:8000',
-'http://44.204.17.113:8000']
+'https://34.201.60.98/:8000',
+'http://34.201.60.98/:8000']
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
